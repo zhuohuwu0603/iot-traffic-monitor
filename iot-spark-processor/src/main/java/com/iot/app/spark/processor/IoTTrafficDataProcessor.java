@@ -33,7 +33,7 @@ import scala.Tuple3;
 
 /**
  * Class to process IoT data stream and to produce traffic data details.
- * 
+ *
  * @author abaghel
  *
  */
@@ -42,7 +42,7 @@ public class IoTTrafficDataProcessor {
 
 	/**
 	 * Method to get total traffic counts of different type of vehicles for each route.
-	 * 
+	 *
 	 * @param filteredIotDataStream IoT data stream
 	 */
 	public void processTotalTrafficData(JavaDStream<IoTData> filteredIotDataStream) {
@@ -51,7 +51,7 @@ public class IoTTrafficDataProcessor {
 		JavaPairDStream<AggregateKey, Long> countDStreamPair = filteredIotDataStream
 				.mapToPair(iot -> new Tuple2<>(new AggregateKey(iot.getRouteId(), iot.getVehicleType()), 1L))
 				.reduceByKey((a, b) -> a + b);
-		
+
 		// Need to keep state for total count
 		JavaMapWithStateDStream<AggregateKey, Long, Long, Tuple2<AggregateKey, Long>> countDStreamWithStatePair = countDStreamPair
 				.mapWithState(StateSpec.function(totalSumFunc).timeout(Durations.seconds(3600)));//maintain state for one hour
@@ -76,7 +76,7 @@ public class IoTTrafficDataProcessor {
 	/**
 	 * Method to get window traffic counts of different type of vehicles for each route.
 	 * Window duration = 30 seconds and Slide interval = 10 seconds
-	 * 
+	 *
 	 * @param filteredIotDataStream IoT data stream
 	 */
 	public void processWindowTrafficData(JavaDStream<IoTData> filteredIotDataStream) {
@@ -104,20 +104,20 @@ public class IoTTrafficDataProcessor {
 
 	/**
 	 * Method to get the vehicles which are in radius of POI and their distance from POI.
-	 * 
+	 *
 	 * @param nonFilteredIotDataStream original IoT data stream
 	 * @param broadcastPOIValues variable containing POI coordinates, route and vehicle types to monitor.
 	 */
 	public void processPOIData(JavaDStream<IoTData> nonFilteredIotDataStream,Broadcast<Tuple3<POIData, String, String>> broadcastPOIValues) {
-		 
+
 		// Filter by routeId,vehicleType and in POI range
 		JavaDStream<IoTData> iotDataStreamFiltered = nonFilteredIotDataStream
 				.filter(iot -> (iot.getRouteId().equals(broadcastPOIValues.value()._2())
 						&& iot.getVehicleType().contains(broadcastPOIValues.value()._3())
 						&& GeoDistanceCalculator.isInPOIRadius(Double.valueOf(iot.getLatitude()),
-								Double.valueOf(iot.getLongitude()), broadcastPOIValues.value()._1().getLatitude(),
-								broadcastPOIValues.value()._1().getLongitude(),
-								broadcastPOIValues.value()._1().getRadius())));
+						Double.valueOf(iot.getLongitude()), broadcastPOIValues.value()._1().getLatitude(),
+						broadcastPOIValues.value()._1().getLongitude(),
+						broadcastPOIValues.value()._1().getRadius())));
 
 		// pair with poi
 		JavaPairDStream<IoTData, POIData> poiDStreamPair = iotDataStreamFiltered
@@ -139,17 +139,17 @@ public class IoTTrafficDataProcessor {
 				.withConstantTTL(120)//keeping data for 2 minutes
 				.saveToCassandra();
 	}
-	
+
 	//Function to get running sum by maintaining the state
 	private static final Function3<AggregateKey, Optional<Long>, State<Long>,Tuple2<AggregateKey,Long>> totalSumFunc = (key,currentSum,state) -> {
-        long totalSum = currentSum.or(0L) + (state.exists() ? state.get() : 0);
-        Tuple2<AggregateKey, Long> total = new Tuple2<>(key, totalSum);
-        state.update(totalSum);
-        return total;
-    };
-    
-    //Function to create TotalTrafficData object from IoT data
-    private static final Function<Tuple2<AggregateKey, Long>, TotalTrafficData> totalTrafficDataFunc = (tuple -> {
+		long totalSum = currentSum.or(0L) + (state.exists() ? state.get() : 0);
+		Tuple2<AggregateKey, Long> total = new Tuple2<>(key, totalSum);
+		state.update(totalSum);
+		return total;
+	};
+
+	//Function to create TotalTrafficData object from IoT data
+	private static final Function<Tuple2<AggregateKey, Long>, TotalTrafficData> totalTrafficDataFunc = (tuple -> {
 		logger.debug("Total Count : " + "key " + tuple._1().getRouteId() + "-" + tuple._1().getVehicleType() + " value "+ tuple._2());
 		TotalTrafficData trafficData = new TotalTrafficData();
 		trafficData.setRouteId(tuple._1().getRouteId());
@@ -159,9 +159,9 @@ public class IoTTrafficDataProcessor {
 		trafficData.setRecordDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
 		return trafficData;
 	});
-    
-    //Function to create WindowTrafficData object from IoT data
-    private static final Function<Tuple2<AggregateKey, Long>, WindowTrafficData> windowTrafficDataFunc = (tuple -> {
+
+	//Function to create WindowTrafficData object from IoT data
+	private static final Function<Tuple2<AggregateKey, Long>, WindowTrafficData> windowTrafficDataFunc = (tuple -> {
 		logger.debug("Window Count : " + "key " + tuple._1().getRouteId() + "-" + tuple._1().getVehicleType()+ " value " + tuple._2());
 		WindowTrafficData trafficData = new WindowTrafficData();
 		trafficData.setRouteId(tuple._1().getRouteId());
@@ -171,9 +171,9 @@ public class IoTTrafficDataProcessor {
 		trafficData.setRecordDate(new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
 		return trafficData;
 	});
-    
-    //Function to create POITrafficData object from IoT data
-    private static final Function<Tuple2<IoTData, POIData>, POITrafficData> poiTrafficDataFunc = (tuple -> {
+
+	//Function to create POITrafficData object from IoT data
+	private static final Function<Tuple2<IoTData, POIData>, POITrafficData> poiTrafficDataFunc = (tuple -> {
 		POITrafficData poiTraffic = new POITrafficData();
 		poiTraffic.setVehicleId(tuple._1.getVehicleId());
 		poiTraffic.setVehicleType(tuple._1.getVehicleType());
