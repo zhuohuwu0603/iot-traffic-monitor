@@ -25,9 +25,23 @@ public class IoTData implements Serializable{
 	public IoTData(){
 		
 	}
-	
-	public IoTData(String vehicleId, String vehicleType, String routeId, String latitude, String longitude, 
-			Date timestamp, double speed, double fuelLevel) {
+
+	@Override
+	public String toString() {
+		return "IoTData{" +
+				"vehicleId='" + vehicleId + '\'' +
+				", vehicleType='" + vehicleType + '\'' +
+				", routeId='" + routeId + '\'' +
+				", latitude='" + latitude + '\'' +
+				", longitude='" + longitude + '\'' +
+				", timestamp=" + timestamp +
+				", speed=" + speed +
+				", fuelLevel=" + fuelLevel +
+				'}';
+	}
+
+	public IoTData(String vehicleId, String vehicleType, String routeId, String latitude, String longitude,
+				   Date timestamp, double speed, double fuelLevel) {
 		super();
 		this.vehicleId = vehicleId;
 		this.vehicleType = vehicleType;
