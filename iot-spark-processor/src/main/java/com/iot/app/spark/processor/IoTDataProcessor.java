@@ -58,6 +58,7 @@ public class IoTDataProcessor {
 		Map<String, String> kafkaParams = new HashMap<String, String>();
 		kafkaParams.put("zookeeper.connect", prop.getProperty("com.iot.app.kafka.zookeeper"));
 		kafkaParams.put("metadata.broker.list", prop.getProperty("com.iot.app.kafka.brokerlist"));
+		kafkaParams.put("auto.offset.reset", "smallest");
 		String topic = prop.getProperty("com.iot.app.kafka.topic");
 		Set<String> topicsSet = new HashSet<String>();
 		topicsSet.add(topic);
@@ -95,11 +96,13 @@ public class IoTDataProcessor {
 
 		filteredIotDataStream.foreachRDD(
 				item -> {
-
-					item.foreach(ele -> {
-						System.out.println("EAch msg is:　");
-
-						System.out.println(ele);
+					item.foreachPartition(ele -> {
+						ele.forEachRemaining(str ->
+						{
+							System.out.println(str);
+						});
+						//System.out.println("EAch msg is:　");
+						//System.out.println(ele);
 					});
 				}
 		);
