@@ -3,6 +3,7 @@ package com.iot.app.spark.vo;
 import java.io.Serializable;
 import java.util.Date;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.google.gson.Gson;
 
 /**
  * Class to represent the IoT vehicle data.
@@ -28,16 +29,7 @@ public class IoTData implements Serializable{
 
 	@Override
 	public String toString() {
-		return "IoTData{" +
-				"vehicleId='" + vehicleId + '\'' +
-				", vehicleType='" + vehicleType + '\'' +
-				", routeId='" + routeId + '\'' +
-				", latitude='" + latitude + '\'' +
-				", longitude='" + longitude + '\'' +
-				", timestamp=" + timestamp +
-				", speed=" + speed +
-				", fuelLevel=" + fuelLevel +
-				'}';
+		return new Gson().toJson(this);
 	}
 
 	public IoTData(String vehicleId, String vehicleType, String routeId, String latitude, String longitude,

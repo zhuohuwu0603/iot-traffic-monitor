@@ -1,0 +1,10 @@
+{"vehicleId":"e670f335-ecc2-4272-8401-f3a3ef0a708f","vehicleType":"Small Truck","routeId":"Route-43","longitude":"-97.7076","latitude":"35.694485","timestamp":"2016-10-20 13:56:40","speed":20.0,"fuelLevel":17.0}
+{"vehicleId":"99ddf0d8-d099-4aec-a3c2-4643c8a3e1ab","vehicleType":"Small Truck","routeId":"Route-82","longitude":"-96.45581","latitude":"34.963","timestamp":"2016-10-20 13:56:40","speed":21.0,"fuelLevel":14.0}
+{"vehicleId":"2e64c5ca-78f5-4771-96d2-25287c08176c","vehicleType":"Private Car","routeId":"Route-82","longitude":"-96.21663","latitude":"34.909588","timestamp":"2016-10-20 13:56:40","speed":70.0,"fuelLevel":11.0}
+{"vehicleId":"e670f335-ecc2-4272-8401-f3a3ef0a708f","vehicleType":"Small Truck","routeId":"Route-43","longitude":"-97.11759","latitude":"35.444332","timestamp":"2016-10-20 13:56:40","speed":20.0,"fuelLevel":17.0}
+{"vehicleId":"c087e41b-c276-4440-82ed-48cfee11ddcb","vehicleType":"Bus","routeId":"Route-43","longitude":"-97.5099","latitude":"35.2058","timestamp":"2016-10-20 13:56:40","speed":87.0,"fuelLevel":25.0}
+{"vehicleId":"1cfd119d-5dd4-47f6-ab5d-838dffa6ea3a","vehicleType":"Bus","routeId":"Route-37","longitude":"-95.920715","latitude":"33.69757","timestamp":"2016-10-20 13:56:40","speed":52.0,"fuelLevel":20.0}
+{"vehicleId":"adec0303-8b55-448e-8e0d-80c4a7ea3821","vehicleType":"Taxi","routeId":"Route-43","longitude":"-97.24716","latitude":"35.14694","timestamp":"2016-10-20 13:56:40","speed":68.0,"fuelLevel":34.0}
+{"vehicleId":"fb4260c9-021a-4e6c-adfd-2ebd5d116da7","vehicleType":"Private Car","routeId":"Route-37","longitude":"-95.81695","latitude":"33.04263","timestamp":"2016-10-20 13:56:40","speed":20.0,"fuelLevel":18.0}
+{"vehicleId":"94e1c547-a82b-4402-b270-bd72a92e75a1","vehicleType":"Large Truck","routeId":"Route-82","longitude":"-96.50071","latitude":"34.51216","timestamp":"2016-10-20 13:56:40","speed":81.0,"fuelLevel":19.0}
+{"vehicleId":"39c1d1e3-339a-4a69-ae68-c0e668076684","vehicleType":"Bus","routeId":"Route-43","longitude":"-97.98482","latitude":"35.215427","timestamp":"2016-10-20 13:56:40","speed":49.0,"fuelLevel":34.0}
